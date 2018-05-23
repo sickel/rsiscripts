@@ -9,9 +9,9 @@ if len(sys.argv)<4:
 readfile=sys.argv[1]
 firstch=int(sys.argv[2])
 lastch=int(sys.argv[3])
-
+print(firstch,lastch)
 basename=ntpath.basename(readfile)
-writefile="proc_"+basename
+writefile="proc_"+str(firstch)+"_"+str(lastch)+"_"+basename
 print(basename)
 lnr=0
 ch00=-1
@@ -29,7 +29,7 @@ with open(readfile) as rf:
             wf=open(writefile,"w")
             wf.write("lat,lon,alt,Ch_"+str(firstch)+"_"+str(lastch)+"\n")
         if lnr>3:
-            data=list(map(int,line[ch00+firstch:ch00+lastch]))
+            data=list(map(int,line[ch00+firstch:ch00+lastch+1]))
             wf.write(",".join([line[latix],line[lonix],line[altix],str(sum(data))]))
             wf.write("\n")
 wf.close()
