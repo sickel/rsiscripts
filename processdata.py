@@ -59,9 +59,13 @@ with open(readfile) as rf:
             roilist=",".join(rois.keys())
             wf.write(header+","+roilist+"\n")
         if lnr>3:
+            roivalues=[]
         #TODO: Use rois[] to get firstch and lastch
-            data=list(map(int,line[ch00+firstch:ch00+lastch+1]))
-            wf.write(",".join([line[latix],line[lonix],line[altix],str(sum(data))]))
+            for roiname in rois:
+                roi=rois[roiname]
+                roivalue=sum(list(map(int,line[ch00+roi[0]:ch00+roi[1]+1])))
+                roivalues.append(str(roivalue))
+            wf.write(",".join([line[latix],line[lonix],line[altix],",".join(roivalues)]))
             wf.write("\n")
 wf.close()
 #print(file)
