@@ -19,7 +19,10 @@ def tree():
 rois=tree()
 
 if len(sys.argv)==1:
-    print("Oppgi fil som skal prosseseres - første og siste kanal")
+    print("Oppgi fil som skal prosseseres  Deretter ROIer (navn:)Ch_fra:Ch_til  - så mange som nødvendig")
+    print("Dersom det ikke er oppgitt noe ROI-navn, kalles ROIen ROI_fra_til")
+    print("Eksempel :"+sys.argv[0]+" testdata.csv ROI1:50:70 90:100")
+    print("I denne filen blir det to ROIer, en heter ROI1, den andre ROI_90_100")
     sys.exit(1)
     
 readfile=sys.argv[1]
