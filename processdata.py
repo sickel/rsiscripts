@@ -2,7 +2,7 @@ import sys
 import csv
 import ntpath
 import collections
-
+import datetime
 
 # TODO: Add several sets of ROIs
 # Eg: processdata <file> 20,30,40 80,90,100,110
@@ -23,23 +23,38 @@ if len(sys.argv)==1:
     sys.exit(1)
     
 readfile=sys.argv[1]
-if len(sys.argv)>2:
-    firstch=int(sys.argv[2])
-else:
-    firstch=0
-if len(sys.argv)>3:
-    lastch=int(sys.argv[3])
-else:
-    lastch=1023
-
-roiname="_".join(["ROI",str(firstch),str(lastch)])
-rois[roiname]=[firstch,lastch]
+args=sys.argv[2:]
+for arg in sys.argv[2:]:
+    print(arg)
+    if ":" in arg:
+        chs=arg.split(":")
+        try:
+            roiname = int(chs[0])
+            roiname="_".join(["ROI",chs[0],chs[1]])
+        except ValueError:
+            roiname=chs.pop(0)
+        print(roiname)
+        rois[roiname]=[int(chs[0]),int(chs[1])]
+        
+#else:
+if False:
+    if len(sys.argv)>2:
+        firstch=int(sys.argv[2])
+    else:
+        firstch=0
+    if len(sys.argv)>3:
+        lastch=int(sys.argv[3])
+    else:
+        lastch=1023
+    roiname="_".join(["ROI",str(firstch),str(lastch)])
+    rois[roiname]=[firstch,lastch]
 
     
-
-print(firstch,lastch)
+for roi in rois:
+    print(roi,rois[roi])
 basename=ntpath.basename(readfile)
-writefile="proc_"+str(firstch)+"_"+str(lastch)+"_"+basename
+timestamp=datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+writefile="proc_"+timestamp+"_"+basename
 print("Reading: "+basename)
 print("Writing: "+writefile)
 lnr=0
